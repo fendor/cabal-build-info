@@ -1,0 +1,51 @@
+cabal-version:      2.4
+name:               cabal-build-info
+version:            0.1.0.0
+synopsis:           Encoder and Decoder for Cabal's build-info json format.
+description:
+  Provides convenient encoder and decoder for Cabal's build-info json format.
+
+bug-reports:        https://github.com/fendor/cabal-build-info/issues
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             Fendor
+maintainer:         fendor@posteo.de
+extra-source-files:
+  CHANGELOG.md
+  tests/resources/golden/*.json
+  tests/resources/input/*.json
+
+category:           development, mit, library
+
+library
+  exposed-modules:  Cabal.BuildInfo
+  build-depends:
+    , aeson
+    , base   ^>=4.14.1.0
+    , text
+
+  hs-source-dirs:   src
+  default-language: Haskell2010
+
+test-suite unit-tests
+  type:             exitcode-stdio-1.0
+  default-language: Haskell2010
+  build-depends:
+    , aeson
+    , aeson-pretty
+    , base
+    , cabal-build-info
+    , filepath
+    , QuickCheck
+    , tasty
+    , tasty-golden
+    , tasty-quickcheck
+    , text
+
+  hs-source-dirs:   tests/
+  ghc-options:      -threaded -Wall
+  main-is:          Main.hs
+
+source-repository head
+  type:     git
+  location: git://github.com/fendor/cabal-build-info.git
