@@ -39,7 +39,7 @@ data BuildInfo = BuildInfo
   { cabalLibVersion :: Version,
     compiler :: CompilerInfo,
     components :: [ComponentInfo],
-    projectRoot :: FilePath
+    projectRoot :: Maybe FilePath
   }
   deriving (Generic, Show, Eq)
 
