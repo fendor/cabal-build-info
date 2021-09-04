@@ -1,10 +1,15 @@
 {
-    "cabalVersion": "3.5.0.0",
     "components": [
         {
-            "componentType": "test",
-            "componentUnitId": "hie-bios-0.8.0-inplace-bios-tests",
-            "componentCompilerArgs": [
+            "unit-id": "hie-bios-0.8.0-inplace-bios-tests",
+            "hs-src-dirs": [
+                "tests/"
+            ],
+            "src-files": [
+                "BiosTests.hs"
+            ],
+            "name": "test:bios-tests",
+            "compiler-args": [
                 "-fbuilding-cabal-package",
                 "-O",
                 "-outputdir",
@@ -58,21 +63,21 @@
                 "-threaded",
                 "-Wall"
             ],
-            "componentName": "test:bios-tests",
-            "componentSrcDir": "/home/hugin/Documents/haskell/hie-bios/",
-            "componentCabalFile": "./hie-bios.cabal",
-            "componentModules": [],
-            "componentSrcFiles": [
-                "BiosTests.hs"
-            ],
-            "componentHsSrcDirs": [
-                "tests/"
-            ]
+            "modules": [],
+            "cabal-file": "./hie-bios.cabal",
+            "src-dir": "/home/hugin/Documents/haskell/hie-bios/",
+            "type": "test"
         },
         {
-            "componentType": "test",
-            "componentUnitId": "hie-bios-0.8.0-inplace-parser-tests",
-            "componentCompilerArgs": [
+            "unit-id": "hie-bios-0.8.0-inplace-parser-tests",
+            "hs-src-dirs": [
+                "tests/"
+            ],
+            "src-files": [
+                "ParserTests.hs"
+            ],
+            "name": "test:parser-tests",
+            "compiler-args": [
                 "-fbuilding-cabal-package",
                 "-O",
                 "-outputdir",
@@ -122,22 +127,17 @@
                 "-threaded",
                 "-Wall"
             ],
-            "componentName": "test:parser-tests",
-            "componentSrcDir": "/home/hugin/Documents/haskell/hie-bios/",
-            "componentCabalFile": "./hie-bios.cabal",
-            "componentModules": [],
-            "componentSrcFiles": [
-                "ParserTests.hs"
-            ],
-            "componentHsSrcDirs": [
-                "tests/"
-            ]
+            "modules": [],
+            "cabal-file": "./hie-bios.cabal",
+            "src-dir": "/home/hugin/Documents/haskell/hie-bios/",
+            "type": "test"
         }
     ],
-    "projectRoot": "/home/hugin/Documents/haskell/hie-bios/",
+    "project-root": "/home/hugin/Documents/haskell/hie-bios/",
     "compiler": {
-        "compilerId": "ghc-8.10.2",
+        "compiler-id": "ghc-8.10.2",
         "flavour": "ghc",
         "path": "/home/hugin/.ghcup/bin/ghc"
-    }
+    },
+    "cabal-version": "3.5.0.0"
 }

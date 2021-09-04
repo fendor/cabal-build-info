@@ -41,17 +41,13 @@ componentInfoTests =
     mkComponentInfoTestCase = mkGoldenTestCase (Proxy :: Proxy ComponentInfo)
 
 mkGoldenTestCase :: forall a. (ToJSON a, FromJSON a) => Proxy a -> String -> String -> TestTree
-mkGoldenTestCase _ testName testInput =
-  let inputFile =
-        "tests/resources/input" </> testInput
-      outputFile =
-        "tests/resources/output" </> testInput
-      goldenFile =
-        "tests/resources/golden" </> testInput
-   in goldenVsFile testName goldenFile outputFile $
-        do
-          Right (componentInfo :: a) <- eitherDecodeFileStrict inputFile
-          createDirectoriesAndWriteFile outputFile (encodePretty componentInfo)
+mkGoldenTestCase _ testName testInput = do
+  let inputFile = "tests/resources/input" </> testInput
+      outputFile = "tests/resources/output" </> testInput
+      goldenFile = "tests/resources/golden" </> testInput
+  goldenVsFile testName goldenFile outputFile $ do
+    Right (componentInfo :: a) <- eitherDecodeFileStrict inputFile
+    createDirectoriesAndWriteFile outputFile (encodePretty componentInfo)
 
 propertyTests :: TestTree
 propertyTests =

@@ -6,7 +6,7 @@ module Cabal.BuildInfo
   ( decodeBuildInfoFile,
     BuildInfo (..),
     CompilerInfo (..),
-    CompilerId(..),
+    CompilerId (..),
     prettyCompilerId,
     ComponentInfo (..),
   )
@@ -14,10 +14,10 @@ where
 
 import Data.Aeson
 import qualified Data.Aeson.Encoding as A
+import Data.Aeson.Types
 import qualified Data.Text as T
 import Data.Version
 import GHC.Generics
-import Data.Aeson.Types
 import Text.ParserCombinators.ReadP
 
 decodeBuildInfoFile :: FilePath -> IO (Either String BuildInfo)
@@ -27,8 +27,8 @@ decodeComponentInfoFile :: FilePath -> IO (Either String ComponentInfo)
 decodeComponentInfoFile = eitherDecodeFileStrict
 
 data CompilerId = CompilerId
-  { compilerName :: T.Text
-  , compilerVersion :: Version
+  { compilerName :: T.Text,
+    compilerVersion :: Version
   }
   deriving (Show, Eq, Ord)
 
@@ -74,45 +74,58 @@ instance ToJSON CompilerId where
 instance FromJSON CompilerId where
   parseJSON (String v) = case parseCompilerId v of
     Just compId -> pure compId
-    Nothing -> prependFailure "parsing CompilerId failed, "
-          (typeMismatch "Version" (String v))
+    Nothing ->
+      prependFailure
+        "parsing CompilerId failed, "
+        (typeMismatch "Version" (String v))
     where
       parseInnerVersion :: T.Text -> Maybe Version
       parseInnerVersion s =
         case reverse $ readP_to_S parseVersion (T.unpack s) of
-          (version, ""):_ -> Just version
+          (version, "") : _ -> Just version
           _ -> Nothing
 
       parseCompilerId v = do
         let (namePart, versionStr) = T.breakOnEnd (T.pack "-") v
         version <- parseInnerVersion versionStr
         name <- T.stripSuffix (T.pack "-") namePart
-        pure CompilerId
-          { compilerName = name
-          , compilerVersion = version
-          }
+        pure
+          CompilerId
+            { compilerName = name,
+              compilerVersion = version
+            }
 
   -- We do not expect a non-String value here.
   -- We could use empty to fail, but typeMismatch
   -- gives a much more informative error message.
-  parseJSON invalid    =
-      prependFailure "parsing CompilerId failed, "
-          (typeMismatch "String" invalid)
+  parseJSON invalid =
+    prependFailure
+      "parsing CompilerId failed, "
+      (typeMismatch "String" invalid)
 
 instance ToJSON BuildInfo where
-  toEncoding = genericToEncoding defaultOptions {fieldLabelModifier = camelTo2 '-'}
+  toJSON = genericToJSON snakeCaseOptions
+  toEncoding = genericToEncoding snakeCaseOptions
 
 instance FromJSON BuildInfo where
-  parseJSON = genericParseJSON defaultOptions {fieldLabelModifier = camelTo2 '-'}
+  parseJSON = genericParseJSON snakeCaseOptions
 
 instance ToJSON CompilerInfo where
-  toEncoding = genericToEncoding defaultOptions {fieldLabelModifier = camelTo2 '-'}
+  toJSON = genericToJSON snakeCaseOptions
+  toEncoding = genericToEncoding snakeCaseOptions
 
 instance FromJSON CompilerInfo where
-  parseJSON = genericParseJSON defaultOptions {fieldLabelModifier = camelTo2 '-'}
+  parseJSON = genericParseJSON snakeCaseOptions
 
 instance ToJSON ComponentInfo where
-  toEncoding = genericToEncoding defaultOptions {fieldLabelModifier = drop 10 . camelTo2 '-'}
+  toJSON = genericToJSON componentInfoDefaultOptions
+  toEncoding = genericToEncoding componentInfoDefaultOptions
 
 instance FromJSON ComponentInfo where
-  parseJSON = genericParseJSON defaultOptions {fieldLabelModifier = drop 10 . camelTo2 '-'}
+  parseJSON = genericParseJSON componentInfoDefaultOptions
+
+snakeCaseOptions :: Options
+snakeCaseOptions = defaultOptions {fieldLabelModifier = camelTo2 '-'}
+
+componentInfoDefaultOptions :: Options
+componentInfoDefaultOptions = snakeCaseOptions {fieldLabelModifier = drop 10 . camelTo2 '-'}

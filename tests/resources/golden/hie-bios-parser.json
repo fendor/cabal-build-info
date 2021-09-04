@@ -1,7 +1,13 @@
 {
-    "componentType": "test",
-    "componentUnitId": "hie-bios-0.8.0-inplace-parser-tests",
-    "componentCompilerArgs": [
+    "unit-id": "hie-bios-0.8.0-inplace-parser-tests",
+    "hs-src-dirs": [
+        "tests/"
+    ],
+    "src-files": [
+        "ParserTests.hs"
+    ],
+    "name": "test:parser-tests",
+    "compiler-args": [
         "-fbuilding-cabal-package",
         "-O",
         "-outputdir",
@@ -51,14 +57,8 @@
         "-threaded",
         "-Wall"
     ],
-    "componentName": "test:parser-tests",
-    "componentSrcDir": "/home/hugin/Documents/haskell/hie-bios/",
-    "componentCabalFile": "./hie-bios.cabal",
-    "componentModules": [],
-    "componentSrcFiles": [
-        "ParserTests.hs"
-    ],
-    "componentHsSrcDirs": [
-        "tests/"
-    ]
+    "modules": [],
+    "cabal-file": "./hie-bios.cabal",
+    "src-dir": "/home/hugin/Documents/haskell/hie-bios/",
+    "type": "test"
 }
