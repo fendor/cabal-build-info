@@ -1,5 +1,5 @@
 {
-  "cabal-version": "3.5.0.0",
+  "cabal-lib-version": "3.5.0.0",
   "compiler": {
     "flavour": "ghc",
     "compiler-id": "ghc-8.10.2",

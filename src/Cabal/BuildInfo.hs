@@ -36,7 +36,7 @@ prettyCompilerId :: CompilerId -> T.Text
 prettyCompilerId CompilerId {..} = compilerName <> T.pack "-" <> T.pack (showVersion compilerVersion)
 
 data BuildInfo = BuildInfo
-  { cabalVersion :: Version,
+  { cabalLibVersion :: Version,
     compiler :: CompilerInfo,
     components :: [ComponentInfo],
     projectRoot :: FilePath

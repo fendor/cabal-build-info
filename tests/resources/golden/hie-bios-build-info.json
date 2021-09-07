@@ -139,5 +139,5 @@
         "flavour": "ghc",
         "path": "/home/hugin/.ghcup/bin/ghc"
     },
-    "cabal-version": "3.5.0.0"
+    "cabal-lib-version": "3.5.0.0"
 }
