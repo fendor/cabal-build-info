@@ -1,12 +1,5 @@
 {
-    "unit-id": "hie-bios-0.8.0-inplace-hie-bios",
-    "hs-src-dirs": [
-        "exe"
-    ],
-    "src-files": [
-        "Main.hs"
-    ],
-    "name": "exe:hie-bios",
+    "cabal-file": "./hie-bios.cabal",
     "compiler-args": [
         "-fbuilding-cabal-package",
         "-O",
@@ -50,10 +43,17 @@
         "-XHaskell2010",
         "-Wall"
     ],
+    "hs-src-dirs": [
+        "exe"
+    ],
     "modules": [
         "Paths_hie_bios"
     ],
-    "cabal-file": "./hie-bios.cabal",
+    "name": "exe:hie-bios",
     "src-dir": "/home/hugin/Documents/haskell/hie-bios",
-    "type": "exe"
+    "src-files": [
+        "Main.hs"
+    ],
+    "type": "exe",
+    "unit-id": "hie-bios-0.8.0-inplace-hie-bios"
 }

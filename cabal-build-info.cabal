@@ -1,9 +1,9 @@
 cabal-version:      2.4
 name:               cabal-build-info
-version:            0.1.0.0
-synopsis:           Encoder and Decoder for Cabal's build-info json format.
+version:            0.0.1.0
+synopsis:           Encoder and Decoder for Cabal's various json build artefacts.
 description:
-  Provides convenient encoder and decoder for Cabal's build-info json format.
+  Provides convenient encoder and decoder for Cabal's various json build artefacts.
 
 bug-reports:        https://github.com/fendor/cabal-build-info/issues
 license:            BSD-3-Clause
@@ -22,9 +22,9 @@ tested-with:  GHC==9.0.1, GHC==8.10.2, GHC==8.8.4
 library
   exposed-modules:  Cabal.BuildInfo
   build-depends:
-    , aeson  ^>=1.5.6
-    , base   ^>=4.10.0 || ^>=4.11.0 || ^>=4.12.0 || ^>=4.13.0 || ^>=4.14.1.0 || ^>=4.15.0.0
-    , text   ^>=1.2.4
+    , aeson  ^>=2.2.0.0
+    , base   >=4.12.0 && <4.19
+    , text   >=2.0 && <2.2
 
   hs-source-dirs:   src
   default-language: Haskell2010
