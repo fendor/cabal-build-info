@@ -58,7 +58,7 @@ data ComponentInfo = ComponentInfo
   , componentSrcFiles :: [FilePath]
   , componentHsSrcDirs :: [FilePath]
   , componentSrcDir :: FilePath
-  , componentCabalFile :: Maybe FilePath
+  , componentCabalFile :: FilePath
   }
   deriving (Generic, Show, Eq)
 
