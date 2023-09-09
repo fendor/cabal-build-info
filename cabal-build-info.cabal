@@ -13,9 +13,11 @@ license-file:       LICENSE
 author:             Fendor
 maintainer:         fendor@posteo.de
 extra-source-files:
-  CHANGELOG.md
   tests/resources/golden/*.json
   tests/resources/input/*.json
+
+extra-doc-files:
+  CHANGELOG.md
 
 category:           development, mit, library
 tested-with:        GHC ==9.6.4
