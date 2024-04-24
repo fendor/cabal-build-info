@@ -43,7 +43,7 @@ main = do
                 case findComponent pkgName target bi of
                   Nothing -> error "No such component"
                   Just compInfo -> do
-                    mapM_ T.putStrLn (componentCompilerArgs compInfo)
+                    mapM_ T.putStrLn (componentCompilerArgs compInfo <> componentModules compInfo <> componentSrcFiles compInfo)
  where
   opts =
     info
