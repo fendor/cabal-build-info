@@ -5,11 +5,12 @@
 
 module Main where
 
-import Cabal.BuildInfo
+import Cabal.Json.BuildInfo
 import Data.Aeson
 import Data.Aeson.Encode.Pretty (encodePretty)
 import Data.Proxy
 import System.FilePath
+import Test.QuickCheck.Instances.Text ()
 import Test.Tasty
 import Test.Tasty.Golden
 import Test.Tasty.QuickCheck as QC

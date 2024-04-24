@@ -1,0 +1,4 @@
+packages: ./
+
+package cabal-build-info
+    build-info: True
