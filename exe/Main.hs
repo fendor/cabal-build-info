@@ -24,7 +24,7 @@ main = do
     Right planJson -> do
       case optCommand theOpts of
         ListTargets -> mapM_ T.putStrLn (listTargets planJson)
-        ShowCompilationOptions target -> case findUnitByTarget target planJson of
+        ShowCompilationOptions target -> case findLocalUnitByTarget target planJson of
           Nothing -> error "No such unit was found"
           Just unitOrPkg -> do
             let Just biFp = case unitOrPkg of

@@ -8,10 +8,10 @@ import qualified Data.Text as T
 
 type Target = T.Text
 
-findUnitByTarget :: T.Text -> CabalPlan UnitId -> Maybe (InstallPlanNode UnitId)
-findUnitByTarget target = findUnitBy
-  (\unit -> prettyTargetName unit == target)
-  (\pkg -> packagePkgName pkg == pkgName)
+findLocalUnitByTarget :: T.Text -> CabalPlan UnitId -> Maybe (InstallPlanNode UnitId)
+findLocalUnitByTarget target = findUnitBy
+  (\unit -> prettyTargetName unit == target && unitStyle unit == "local")
+  (\pkg -> packagePkgName pkg == pkgName && packageStyle pkg == "local")
   where
     (pkgName:_:_) = T.splitOn ":" target
     prettyTargetName node
