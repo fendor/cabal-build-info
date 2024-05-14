@@ -19,6 +19,7 @@ import qualified Data.Text as T
 import Data.Version
 import GHC.Generics
 import Data.Data
+import Data.Aeson.Types
 
 type UnitId = T.Text
 
@@ -102,6 +103,15 @@ data PackageSource
   = LocalSource LocalPackageSource
   | -- | UriSource RepoSourceUri
     TarSource RepoSourceTar
+  | VcsSource SourceRepo
+  deriving (Show, Ord, Eq, Generic, Data, Typeable)
+
+data SourceRepo = SourceRepo
+  { sourceRepoType :: T.Text
+  , sourceRepoLocation :: T.Text
+  , sourceRepoTag :: T.Text
+  , sourceReposSubdir :: Maybe T.Text
+  }
   deriving (Show, Ord, Eq, Generic, Data, Typeable)
 
 data LocalPackageSource = LocalPackageSource
@@ -173,14 +183,27 @@ instance ToJSON PackageSource where
       [ "type" .= ("repo-tar" :: T.Text)
       , "repo" .= repoSourceTar
       ]
+  toJSON (VcsSource sourceRepo) =
+    Aeson.object
+      [ "type" .= ("source-repo" :: T.Text)
+      , "source-repo" .= sourceRepo
+      ]
+
   toEncoding (LocalSource (LocalPackageSource fp)) =
-    Aeson.pairs $
-      "type" .= ("local" :: T.Text)
-        <> "path" .= T.pack fp
+    Aeson.pairs $ mconcat
+      [ "type" .= ("local" :: T.Text)
+      , "path" .= T.pack fp
+      ]
   toEncoding (TarSource repoSourceTar) =
-    Aeson.pairs $
-      "type" .= ("repo-tar" :: T.Text)
-        <> "repo" .= repoSourceTar
+    Aeson.pairs $ mconcat
+      [ "type" .= ("repo-tar" :: T.Text)
+      , "repo" .= repoSourceTar
+      ]
+  toEncoding (VcsSource sourceRepo) =
+    Aeson.pairs $ mconcat
+      [ "type" .= ("source-repo" :: T.Text)
+      , "source-repo" .= sourceRepo
+      ]
 
 instance FromJSON PackageSource where
   parseJSON = withObject "PackageSource" $ \o -> do
@@ -188,7 +211,18 @@ instance FromJSON PackageSource where
     case ty of
       "local" -> LocalSource <$> (LocalPackageSource <$> o .: "path")
       "repo-tar" -> TarSource <$> (o .: "repo")
-      _ -> undefined
+      "source-repo" -> VcsSource <$> (o .: "source-repo")
+      _ ->
+        prependFailure
+          "parsing PackageSource failed, "
+          (typeMismatch "type" (String ty))
+
+instance ToJSON SourceRepo where
+  toJSON = genericToJSON sourceRepoOptions
+  toEncoding = genericToEncoding sourceRepoOptions
+
+instance FromJSON SourceRepo where
+  parseJSON = genericParseJSON sourceRepoOptions
 
 instance ToJSON RepoSourceTar where
   toJSON = genericToJSON repoSourceTarOptions
@@ -202,6 +236,9 @@ installPlanNodeOptions = defaultOptions{sumEncoding = UntaggedValue}
 
 cabalPlanOptions :: Options
 cabalPlanOptions = defaultOptionsWithPrefix "plan"
+
+sourceRepoOptions :: Options
+sourceRepoOptions = defaultOptionsWithPrefix "sourceRepo"
 
 repoSourceTarOptions :: Options
 repoSourceTarOptions = defaultOptionsWithPrefix "repoSourceTar"
